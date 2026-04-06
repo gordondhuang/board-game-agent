@@ -1,19 +1,24 @@
+from enum import Enum
+class Suit(Enum):
+  HEARTS = "Hearts"
+  DIAMONDS = "Diamonds"
+  CLUBS = "Clubs"
+  SPADES = "Spades"
 class Card:
   """
     Represents a card within a standard 52 card deck.
   """
 
-  suits = {"Hearts", "Diamonds", "Clubs", "Spades"}
   ranks = {
-      "2", "3", "4", "5", "6", "7", "8", "9", "10",
-      "Jack", "Queen", "King", "Ace"
+    "2", "3", "4", "5", "6", "7", "8", "9", "10",
+    "Jack", "Queen", "King", "Ace"
   }
 
-  def __init__(self, suit: str, rank: str):
-    if rank not in self.suits:
+  def __init__(self, suit: Suit, rank: str):
+    if not isinstance(suit, Suit):
+      raise ValueError(f"suit must be a Suit enum, retrieved {suit}")
+    if rank not in self.rank:
       raise ValueError(f"Invalid rank: {rank}")
-    if suit not in self.ranks:
-      raise ValueError(f"Invalid suit: {suit}")
 
     self.suit = suit
     self.rank = rank
@@ -25,4 +30,10 @@ class Card:
     return self.value() < other.value()
   
   def __eq__(self, other):
-    return self.value() == other.value()
+    return self.value() == other.value() and self.rank == other.rank()
+  
+  def get_rank(self):
+    return self.rank
+  
+  def get_suit(self):
+    return self.suit
