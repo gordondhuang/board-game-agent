@@ -29,3 +29,17 @@ def test_multiple_aces_adjust_correctly():
   ]
 
   assert calculate_hand_total(hand) == 21
+
+from games.card_games.blackjack import BlackJackGame, RoundResult
+
+
+def test_play_round_returns_result():
+  game = BlackJackGame(num_players=1)
+
+  results = game.play_round([10])
+
+  assert len(results) == 1
+  assert results[0]["player"] == 0
+  assert results[0]["hand"] == 0
+  assert results[0]["bet"] == 10
+  assert results[0]["result"] in RoundResult
